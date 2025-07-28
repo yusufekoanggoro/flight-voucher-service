@@ -37,8 +37,17 @@ func (u *voucherUsecase) GenerateVoucher(req request.GenerateRequest) (response.
 		return response.GenerateVoucherResponse{}, err
 	}
 
-	rand.Seed(time.Now().UnixNano())
 	selectedSeats := randomSeats(availableSeats, 3)
+
+	for _, seat := range selectedSeats {
+		exists, err := u.repo.IsSeatAlreadyUsed(req.FlightNumber, req.Date, seat)
+		if err != nil {
+			return response.GenerateVoucherResponse{}, err
+		}
+		if exists {
+			return response.GenerateVoucherResponse{}, fmt.Errorf("seat %s already used on flight %s at %s", seat, req.FlightNumber, req.Date)
+		}
+	}
 
 	err = u.repo.InsertVoucher(req.Name, req.ID, req.FlightNumber, req.Date, req.Aircraft, selectedSeats)
 	if err != nil {
@@ -77,14 +86,16 @@ func generateSeats(start, end int, letters []string) []string {
 }
 
 func randomSeats(all []string, count int) []string {
-	r := make([]string, 0, count)
-	m := make(map[string]bool)
-	for len(r) < count {
-		s := all[rand.Intn(len(all))]
-		if !m[s] {
-			r = append(r, s)
-			m[s] = true
-		}
+	if len(all) < count {
+		return nil // atau error
 	}
-	return r
+
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	shuffled := make([]string, len(all))
+	copy(shuffled, all)
+	r.Shuffle(len(shuffled), func(i, j int) {
+		shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
+	})
+
+	return shuffled[:count]
 }
