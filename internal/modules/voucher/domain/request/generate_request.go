@@ -1,9 +1,9 @@
 package request
 
 type GenerateRequest struct {
-	CrewID       string `json:"crewId" binding:"required"`
-	CrewName     string `json:"crewName" binding:"required"`
+	ID           string `json:"id" binding:"required"`
+	Name         string `json:"name" binding:"required"`
 	FlightNumber string `json:"flightNumber" binding:"required"`
-	FlightDate   string `json:"flightDate" binding:"required"`
-	AircraftType string `json:"aircraftType" binding:"required"`
+	Date         string `json:"date" binding:"required"`
+	Aircraft     string `json:"aircraft" binding:"required"`
 }
