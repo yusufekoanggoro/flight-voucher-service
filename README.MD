@@ -20,7 +20,7 @@ Sebuah REST API untuk memeriksa dan menghasilkan voucher tempat duduk bagi kru p
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/nama-kamu/flight-voucher-service.git
+git clone https://github.com/yusufekoanggoro/flight-voucher-service
 cd flight-voucher-service
 ```
 
