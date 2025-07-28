@@ -7,6 +7,7 @@ import (
 
 type VoucherRepository interface {
 	FlightExists(flightNumber, date string) (bool, error)
+	IsSeatAlreadyUsed(flightNumber, flightDate string, seat string) (bool, error)
 	InsertVoucher(name, id, flightNumber, date, aircraft string, seats []string) error
 }
 
@@ -30,6 +31,17 @@ func (r *voucherRepository) FlightExists(flightNumber string, date string) (bool
 		return false, err
 	}
 	return count > 0, nil
+}
+
+func (r *voucherRepository) IsSeatAlreadyUsed(flightNumber, flightDate string, seat string) (bool, error) {
+	query := `
+		SELECT COUNT(*) FROM vouchers 
+		WHERE flight_number = ? AND flight_date = ? 
+		AND (seat1 = ? OR seat2 = ? OR seat3 = ?)
+	`
+	var count int
+	err := r.db.QueryRow(query, flightNumber, flightDate, seat, seat, seat).Scan(&count)
+	return count > 0, err
 }
 
 func (r *voucherRepository) InsertVoucher(name, id, flightNumber, date, aircraft string, seats []string) error {
