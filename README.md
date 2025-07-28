@@ -40,6 +40,7 @@ http://localhost:8080
 
 ## 📂 Struktur Proyek
 
+```
 .
 ├── data/
 │   └── vouchers.db             # File database SQLite
@@ -70,7 +71,7 @@ http://localhost:8080
 ├── go.sum
 ├── main.go
 └── README.md
----
+```
 
 ## 📮 Dokumentasi API
 
