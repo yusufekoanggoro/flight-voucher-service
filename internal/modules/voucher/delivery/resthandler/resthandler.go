@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/domain/request"
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/usecase"
-	"github.com/yusufekoanggoro/voucher-seat-be/utils"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/domain/request"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/usecase"
+	"github.com/yusufekoanggoro/flight-voucher-service/utils"
 )
 
 type RestHandler struct {

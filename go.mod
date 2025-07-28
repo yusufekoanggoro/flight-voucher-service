@@ -1,4 +1,4 @@
-module github.com/yusufekoanggoro/voucher-seat-be
+module github.com/yusufekoanggoro/flight-voucher-service
 
 go 1.24.1
 

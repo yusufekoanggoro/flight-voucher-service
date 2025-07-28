@@ -5,9 +5,9 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/domain/request"
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/domain/response"
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/repository"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/domain/request"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/domain/response"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/repository"
 )
 
 type VoucherUsecase interface {

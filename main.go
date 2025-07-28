@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/infrastucture"
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/delivery/resthandler"
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/repository"
-	"github.com/yusufekoanggoro/voucher-seat-be/internal/modules/voucher/usecase"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/infrastucture"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/delivery/resthandler"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/repository"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/usecase"
 )
 
 func main() {
