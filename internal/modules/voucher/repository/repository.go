@@ -2,13 +2,14 @@ package repository
 
 import (
 	"database/sql"
-	"time"
+
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/domain"
 )
 
 type VoucherRepository interface {
 	FlightExists(flightNumber, date string) (bool, error)
 	IsSeatAlreadyUsed(flightNumber, flightDate string, seat string) (bool, error)
-	InsertVoucher(name, id, flightNumber, date, aircraft string, seats []string) error
+	InsertVoucher(v *domain.Voucher) error
 }
 
 type voucherRepository struct {
@@ -44,11 +45,14 @@ func (r *voucherRepository) IsSeatAlreadyUsed(flightNumber, flightDate string, s
 	return count > 0, err
 }
 
-func (r *voucherRepository) InsertVoucher(name, id, flightNumber, date, aircraft string, seats []string) error {
+func (r *voucherRepository) InsertVoucher(v *domain.Voucher) error {
 	stmt, err := r.db.Prepare(`INSERT INTO vouchers (crew_name, crew_id, flight_number, flight_date, aircraft_type, seat1, seat2, seat3, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		return err
 	}
-	_, err = stmt.Exec(name, id, flightNumber, date, aircraft, seats[0], seats[1], seats[2], time.Now().Format(time.RFC3339))
+	_, err = stmt.Exec(
+		v.CrewName, v.CrewID, v.FlightNumber, v.FlightDate, v.AircraftType,
+		v.Seat1, v.Seat2, v.Seat3, v.CreatedAt,
+	)
 	return err
 }

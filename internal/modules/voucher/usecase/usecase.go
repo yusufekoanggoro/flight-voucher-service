@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/domain"
 	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/domain/request"
 	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/domain/response"
 	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/repository"
@@ -32,7 +33,7 @@ func (u *voucherUsecase) CheckFlight(req request.CheckFlightRequest) (bool, erro
 }
 
 func (u *voucherUsecase) GenerateVoucher(req request.GenerateRequest) (response.GenerateVoucherResponse, error) {
-	availableSeats, err := getAvailableSeats(req.Aircraft)
+	availableSeats, err := getAvailableSeats(req.AircraftType)
 	if err != nil {
 		return response.GenerateVoucherResponse{}, err
 	}
@@ -49,7 +50,19 @@ func (u *voucherUsecase) GenerateVoucher(req request.GenerateRequest) (response.
 		}
 	}
 
-	err = u.repo.InsertVoucher(req.Name, req.ID, req.FlightNumber, req.FlightDate, req.Aircraft, selectedSeats)
+	voucher := domain.Voucher{
+		CrewName:     req.CrewName,
+		CrewID:       req.CrewID,
+		FlightNumber: req.FlightNumber,
+		FlightDate:   req.FlightDate,
+		AircraftType: req.AircraftType,
+		Seat1:        selectedSeats[0],
+		Seat2:        selectedSeats[1],
+		Seat3:        selectedSeats[2],
+		CreatedAt:    time.Now().Format(time.RFC3339),
+	}
+
+	err = u.repo.InsertVoucher(&voucher)
 	if err != nil {
 		return response.GenerateVoucherResponse{}, err
 	}
