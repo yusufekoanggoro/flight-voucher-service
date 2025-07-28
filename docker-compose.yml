@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  voucher_service:
+    build: ./
+    working_dir: /app
+    container_name: voucher_service
+    ports:
+      - "8080:8080"
+    networks:
+      - voucher_network
+    restart: always
+    volumes:
+      - ./data:/app/data
+    #   - .:/app
+      
+networks:
+  voucher_network:
+    driver: bridge
+
+# volumes:
