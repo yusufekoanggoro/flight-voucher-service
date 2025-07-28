@@ -25,7 +25,7 @@ func InitDB(path string) *sql.DB {
 		seat2 TEXT,
 		seat3 TEXT,
 		created_at TEXT,
-		UNIQUE(flight_number, flight_date),
+		UNIQUE(flight_number, flight_date)
 	);`
 
 	_, err = db.Exec(schema)
