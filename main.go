@@ -5,19 +5,13 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/yusufekoanggoro/flight-voucher-service/internal/infrastucture"
-	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/delivery/resthandler"
-	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/repository"
-	"github.com/yusufekoanggoro/flight-voucher-service/internal/modules/voucher/usecase"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/factory"
+	"github.com/yusufekoanggoro/flight-voucher-service/internal/infrastructure"
 )
 
 func main() {
-	db := infrastucture.InitDB("./data/vouchers.db")
+	db := infrastructure.InitDB("./data/vouchers.db")
 	defer db.Close()
-
-	voucherRepo := repository.NewVoucherRepository(db)
-	voucherUsecase := usecase.NewVoucherUsecase(voucherRepo)
-	voucherHandler := resthandler.NewRestHandler(voucherUsecase)
 
 	router := gin.Default()
 
@@ -31,10 +25,12 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	api := router.Group("/api")
-	{
-		api.POST("/check", voucherHandler.CheckFlight)
-		api.POST("/generate", voucherHandler.GenerateVoucher)
+	apiGroup := router.Group("/api")
+
+	modules := factory.InitAllModule(db)
+
+	for _, m := range modules {
+		m.RestHandler().RegisterRoutes(apiGroup)
 	}
 
 	router.Run(":8080")
