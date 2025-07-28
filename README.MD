@@ -40,24 +40,29 @@ http://localhost:8080
 
 ## 📂 Struktur Proyek
 
-```
 .
 ├── data/
 │   └── vouchers.db             # File database SQLite
 │
 ├── internal/
+│   ├── factory/
+│   │   ├── base/               # Definisi tipe modul dan konstanta
+│   │   ├── interfaces/         # Kontrak untuk dependency injection
+│   │   └── module.go           # Registrasi dan inisialisasi modul
+│   │
 │   ├── infrastructure/
-│   │   └── db.go               # Koneksi ke database
+│   │   └── db.go               # Inisialisasi koneksi database
 │   │
 │   └── modules/
 │       └── voucher/
-│           ├── delivery/       # Handler / controller
-│           ├── domain/         # Entitas dan model
-│           ├── repository/     # Akses data
-│           └── usecase/        # Business logic
+│           ├── delivery/       # Handler REST API, Kafka, Worker, gRPC, dll
+│           ├── domain/         # Entitas, DTO, model
+│           ├── repository/     # Interaksi ke database
+│           ├── usecase/        # Logika bisnis / alur proses
+│           └── module.go       # Modul inisialisasi voucher
 │
 ├── utils/
-│   └── response.go             # Utilitas untuk response API
+│   └── response.go             # Fungsi utilitas untuk response
 │
 ├── docker-compose.yml
 ├── Dockerfile
@@ -65,8 +70,6 @@ http://localhost:8080
 ├── go.sum
 ├── main.go
 └── README.md
-```
-
 ---
 
 ## 📮 Dokumentasi API
