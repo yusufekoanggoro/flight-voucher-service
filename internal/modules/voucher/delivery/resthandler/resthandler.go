@@ -35,7 +35,7 @@ func (h *RestHandler) GenerateVoucher(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"data":    result.Seats,
+		"seats":   result.Seats,
 	})
 }
 
