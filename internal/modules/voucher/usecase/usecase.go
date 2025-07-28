@@ -28,7 +28,7 @@ func NewVoucherUsecase(repo repository.VoucherRepository) VoucherUsecase {
 }
 
 func (u *voucherUsecase) CheckFlight(req request.CheckFlightRequest) (bool, error) {
-	return u.repo.FlightExists(req.FlightNumber, req.Date)
+	return u.repo.FlightExists(req.FlightNumber, req.FlightDate)
 }
 
 func (u *voucherUsecase) GenerateVoucher(req request.GenerateRequest) (response.GenerateVoucherResponse, error) {
@@ -40,16 +40,16 @@ func (u *voucherUsecase) GenerateVoucher(req request.GenerateRequest) (response.
 	selectedSeats := randomSeats(availableSeats, 3)
 
 	for _, seat := range selectedSeats {
-		exists, err := u.repo.IsSeatAlreadyUsed(req.FlightNumber, req.Date, seat)
+		exists, err := u.repo.IsSeatAlreadyUsed(req.FlightNumber, req.FlightDate, seat)
 		if err != nil {
 			return response.GenerateVoucherResponse{}, err
 		}
 		if exists {
-			return response.GenerateVoucherResponse{}, fmt.Errorf("seat %s already used on flight %s at %s", seat, req.FlightNumber, req.Date)
+			return response.GenerateVoucherResponse{}, fmt.Errorf("seat %s already used on flight %s at %s", seat, req.FlightNumber, req.FlightDate)
 		}
 	}
 
-	err = u.repo.InsertVoucher(req.Name, req.ID, req.FlightNumber, req.Date, req.Aircraft, selectedSeats)
+	err = u.repo.InsertVoucher(req.Name, req.ID, req.FlightNumber, req.FlightDate, req.Aircraft, selectedSeats)
 	if err != nil {
 		return response.GenerateVoucherResponse{}, err
 	}
