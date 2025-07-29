@@ -22,7 +22,7 @@ func NewRestHandler(uc usecase.VoucherUsecase) interfaces.RestHandler {
 }
 
 func (h *RestHandler) RegisterRoutes(router gin.IRoutes) {
-	router.GET("/check", h.CheckFlight)
+	router.POST("/check", h.CheckFlight)
 	router.POST("/generate", h.GenerateVoucher)
 }
 
